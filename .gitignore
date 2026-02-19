@@ -1,0 +1,66 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+terraform-provider-sequin
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.txt
+
+# Go workspace file
+go.work
+
+# Dependency directories
+vendor/
+
+# Terraform files
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+*.tfvars
+*.tfvars.json
+
+# Local testing
+test-provider/.terraform/
+test-provider/.terraform.lock.hcl
+test-provider/terraform.tfstate*
+test-provider/terraform-debug.log
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Build artifacts
+dist/
+bin/
+
+# Generated documentation
+docs/
+
+# Internal maintenance docs
+maintenance.md
+testing.md
+publishing.md
+
+# Internal testing folder
+test-provider/
+
+# Pre-commit cache
+.pre-commit-cache/
