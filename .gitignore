@@ -61,6 +61,7 @@ publishing.md
 
 # Internal testing folder
 test-provider/
+test-module/
 
 # Pre-commit cache
 .pre-commit-cache/

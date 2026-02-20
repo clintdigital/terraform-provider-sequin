@@ -2,8 +2,7 @@ terraform {
   required_version = ">= 1.0"
   required_providers {
     sequin = {
-      source  = "clintdigital/sequin"
-      version = "~> 0.1"
+      source = "clintdigital/sequin"
     }
   }
 }
@@ -18,10 +17,6 @@ resource "sequin_database" "this" {
   ssl      = var.postgres_ssl
 
   replication_slots = var.replication_slots
-
-  lifecycle {
-    prevent_destroy = var.prevent_destroy
-  }
 }
 
 resource "sequin_sink_consumer" "this" {
