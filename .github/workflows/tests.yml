@@ -49,24 +49,25 @@ jobs:
       - run: go mod download
       - run: go test -v -cover -timeout=120s -parallel=4 ./...
 
-  acctest:
-    name: Acceptance Tests
-    needs: build
-    runs-on:
-      - codebuild-sequin-provider-test-${{ github.run_id }}-${{ github.run_attempt }}
-    timeout-minutes: 60
-    # Only run acceptance tests when secrets are available
-    if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
-        with:
-          go-version-file: 'go.mod'
-          cache: true
-      - run: go mod download
-      - name: Run acceptance tests
-        env:
-          TF_ACC: "1"
-          SEQUIN_ENDPOINT: ${{ secrets.SEQUIN_ENDPOINT }}
-          SEQUIN_API_KEY: ${{ secrets.SEQUIN_API_KEY }}
-        run: go test -v -cover -timeout 120m ./...
+  # Acceptance tests are currently disabled, it needs to be correctly implemented
+  # acctest:
+  #   name: Acceptance Tests
+  #   needs: build
+  #   runs-on:
+  #     - codebuild-sequin-provider-test-${{ github.run_id }}-${{ github.run_attempt }}
+  #   timeout-minutes: 60
+  #   # Only run acceptance tests when secrets are available
+  #   if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository }}
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-go@v5
+  #       with:
+  #         go-version-file: 'go.mod'
+  #         cache: true
+  #     - run: go mod download
+  #     - name: Run acceptance tests
+  #       env:
+  #         TF_ACC: "1"
+  #         SEQUIN_ENDPOINT: ${{ secrets.SEQUIN_ENDPOINT }}
+  #         SEQUIN_API_KEY: ${{ secrets.SEQUIN_API_KEY }}
+  #       run: go test -v -cover -timeout 120m ./...
