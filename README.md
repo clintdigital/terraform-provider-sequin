@@ -1,8 +1,5 @@
 # Terraform Provider for Sequin
 
-[![Tests](https://github.com/clintdigital/terraform-provider-sequin/actions/workflows/test.yml/badge.svg)](https://github.com/clintdigital/terraform-provider-sequin/actions/workflows/test.yml)
-[![Release](https://github.com/clintdigital/terraform-provider-sequin/actions/workflows/release.yml/badge.svg)](https://github.com/clintdigital/terraform-provider-sequin/actions/workflows/release.yml)
-
 Terraform provider for managing [Sequin](https://sequinstream.com) resources: databases, sink consumers, and backfills.
 
 ## Quick Start
@@ -289,60 +286,6 @@ terraform import sequin_backfill.orders <sink_consumer_name>/<backfill_id>
 
 ---
 
-## Sequin Module
-
-Provisions a complete Sequin CDC pipeline (database + consumers + backfills) in one block.
-
-```hcl
-module "sequin" {
-  source = "./modules/sequin"
-
-  database_name = "production-db"
-  postgres_host = "postgres.example.com"
-  postgres_db   = "myapp"
-  postgres_user = var.db_user
-  postgres_pass = var.db_password
-
-  consumers = {
-    orders-to-kafka = {
-      tables = {
-        include = [{ name = "public.orders" }]
-      }
-      destination = {
-        type           = "kafka"
-        hosts          = "broker1:9092"
-        topic          = "database.orders"
-        tls            = true
-        username       = "user"
-        password       = var.kafka_pass
-        sasl_mechanism = "scram_sha_256"
-      }
-    }
-
-    events-to-webhook = {
-      tables = {
-        include = [{ name = "public.events" }]
-      }
-      destination = {
-        type               = "webhook"
-        http_endpoint      = "https://api.example.com"
-        http_endpoint_path = "/webhooks"
-      }
-    }
-  }
-
-  backfills = {
-    orders-backfill = {
-      consumer_name = "orders-to-kafka"
-    }
-  }
-}
-```
-
-See [examples/modules/sequin/](examples/modules/sequin/) for the full module source and documentation.
-
----
-
 ## Development
 
 ```bash
@@ -374,8 +317,7 @@ See [testing.md](testing.md) for a step-by-step guide to testing the provider lo
 │   └── resources/           # Resource CRUD implementations
 ├── examples/
 │   ├── provider/            # Provider configuration example
-│   ├── resources/           # Per-resource examples
-│   └── modules/             # Sequin module
+│   └── resources/           # Per-resource examples
 └── test-provider/           # Local test configuration
 ```
 
