@@ -73,7 +73,7 @@ func TestSinkConsumerResource_Schema(t *testing.T) {
 	}
 
 	requiredAttrs := []string{
-		"id", "name", "status", "database", "source", "tables", "actions",
+		"id", "name", "status", "database", "tables", "actions",
 		"destination", "filter", "transform", "enrichment", "routing",
 		"message_grouping", "batch_size", "max_retry_count",
 		"load_shedding_policy", "timestamp_format", "status_info",
@@ -82,6 +82,11 @@ func TestSinkConsumerResource_Schema(t *testing.T) {
 		if _, ok := resp.Schema.Attributes[attr]; !ok {
 			t.Errorf("Schema() missing attribute: %s", attr)
 		}
+	}
+
+	// "source" is a block, not an attribute
+	if _, ok := resp.Schema.Blocks["source"]; !ok {
+		t.Error("Schema() missing block: source")
 	}
 }
 
