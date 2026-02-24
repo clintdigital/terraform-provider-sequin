@@ -69,6 +69,33 @@ func (r *SinkConsumerResource) Metadata(ctx context.Context, req resource.Metada
 func (r *SinkConsumerResource) Schema(ctx context.Context, req resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
 		Description: "Manages a sink consumer that streams database changes to Kafka, SQS, Kinesis, or webhook endpoints.",
+		Blocks: map[string]schema.Block{
+			"source": schema.SingleNestedBlock{
+				Description: "Source configuration for filtering schemas and tables.",
+				Attributes: map[string]schema.Attribute{
+					"include_schemas": schema.ListAttribute{
+						Description: "List of schema names to include (e.g. ['public']).",
+						Optional:    true,
+						ElementType: types.StringType,
+					},
+					"exclude_schemas": schema.ListAttribute{
+						Description: "List of schema names to exclude.",
+						Optional:    true,
+						ElementType: types.StringType,
+					},
+					"include_tables": schema.ListAttribute{
+						Description: "List of table names to include.",
+						Optional:    true,
+						ElementType: types.StringType,
+					},
+					"exclude_tables": schema.ListAttribute{
+						Description: "List of table names to exclude.",
+						Optional:    true,
+						ElementType: types.StringType,
+					},
+				},
+			},
+		},
 		Attributes: map[string]schema.Attribute{
 			"id": schema.StringAttribute{
 				Description: "Unique identifier for the sink consumer.",
@@ -95,32 +122,6 @@ func (r *SinkConsumerResource) Schema(ctx context.Context, req resource.SchemaRe
 			"database": schema.StringAttribute{
 				Description: "ID of the database connection to stream from.",
 				Required:    true,
-			},
-			"source": schema.SingleNestedAttribute{
-				Description: "Source configuration for filtering schemas and tables.",
-				Optional:    true,
-				Attributes: map[string]schema.Attribute{
-					"include_schemas": schema.ListAttribute{
-						Description: "List of schema names to include (e.g. ['public']).",
-						Optional:    true,
-						ElementType: types.StringType,
-					},
-					"exclude_schemas": schema.ListAttribute{
-						Description: "List of schema names to exclude.",
-						Optional:    true,
-						ElementType: types.StringType,
-					},
-					"include_tables": schema.ListAttribute{
-						Description: "List of table names to include.",
-						Optional:    true,
-						ElementType: types.StringType,
-					},
-					"exclude_tables": schema.ListAttribute{
-						Description: "List of table names to exclude.",
-						Optional:    true,
-						ElementType: types.StringType,
-					},
-				},
 			},
 			"tables": schema.ListNestedAttribute{
 				Description: "List of tables to stream changes from.",

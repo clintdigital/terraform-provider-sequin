@@ -29,7 +29,7 @@ lint:
 # Generate documentation
 docs:
 	go install github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs@latest
-	tfplugindocs generate
+	$$(go env GOPATH)/bin/tfplugindocs generate --provider-name sequin
 
 # Clean build artifacts
 clean:
