@@ -371,14 +371,14 @@ func (r *SinkConsumerResource) Create(ctx context.Context, req resource.CreateRe
 		sourceAttrs := data.Source.Attributes()
 
 		if includeSchemas, ok := sourceAttrs["include_schemas"].(types.List); ok && !includeSchemas.IsNull() {
-			   var schemas []string
-			   resp.Diagnostics.Append(includeSchemas.ElementsAs(ctx, &schemas, false)...)
-			   source.IncludeSchemas = schemas
-			   if excludeSchemas, ok := sourceAttrs["exclude_schemas"].(types.List); ok && !excludeSchemas.IsNull() {
-				   var schemas []string
-				   resp.Diagnostics.Append(excludeSchemas.ElementsAs(ctx, &schemas, false)...)
-				   source.ExcludeSchemas = schemas
-			   }
+			var schemas []string
+			resp.Diagnostics.Append(includeSchemas.ElementsAs(ctx, &schemas, false)...)
+			source.IncludeSchemas = schemas
+		}
+		if excludeSchemas, ok := sourceAttrs["exclude_schemas"].(types.List); ok && !excludeSchemas.IsNull() {
+			var schemas []string
+			resp.Diagnostics.Append(excludeSchemas.ElementsAs(ctx, &schemas, false)...)
+			source.ExcludeSchemas = schemas
 		}
 		if includeTables, ok := sourceAttrs["include_tables"].(types.List); ok && !includeTables.IsNull() {
 			var tables []string
